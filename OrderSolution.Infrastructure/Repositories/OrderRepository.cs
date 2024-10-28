@@ -1,6 +1,6 @@
-﻿using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderSolution.Domain.Entities;
+using OrderSolution.Domain.Repositories;
 using OrderSolution.Infrastructure.Data;
 
 namespace OrderSolution.Infrastructure.Repositories

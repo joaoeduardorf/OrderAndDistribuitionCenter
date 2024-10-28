@@ -28,13 +28,13 @@ namespace OrderSolution.Infrastructure.Integrations
         {
             _logger.LogInformation("Publishing order to Kafka retry topic for CorrelationId: {CorrelationId}", correlationId);
 
-            var message = new
-            {
-                Order = orderItem,
-                CorrelationId = correlationId
-            };
+            //var message = new
+            //{
+            //    OrderItem = orderItem,
+            //    CorrelationId = correlationId
+            //};
 
-            var messageJson = JsonSerializer.Serialize(message);
+            var messageJson = JsonSerializer.Serialize(orderItem);
             var kafkaMessage = new Message<string, string> { Key = correlationId, Value = messageJson };
 
             try

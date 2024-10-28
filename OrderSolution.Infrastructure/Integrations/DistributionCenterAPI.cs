@@ -32,7 +32,6 @@ namespace OrderSolution.Infrastructure.Integrations
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
-                //var result = JsonSerializer.Deserialize<DcResponse>(content);
                 var result = JsonSerializer.Deserialize<DcResponse>(content, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true

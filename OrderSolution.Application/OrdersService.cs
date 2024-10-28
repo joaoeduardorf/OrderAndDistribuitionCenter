@@ -1,7 +1,7 @@
-﻿using Infrastructure.Repositories;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using OrderSolution.Application.Interfaces;
 using OrderSolution.Domain.Entities;
+using OrderSolution.Domain.Repositories;
 using OrderSolution.Domain.Validation.Interfaces;
 using OrderSolution.Infrastructure.Integrations;
 

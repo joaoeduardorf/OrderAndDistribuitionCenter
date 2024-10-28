@@ -24,7 +24,19 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-builder.Services.AddOpenTelemetry();
+builder.Services.AddOpenTelemetry().
+    WithTracing(tracerProviderBuilder =>
+{
+    tracerProviderBuilder
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("OrderSolution.API"))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddJaegerExporter(options =>
+        {
+            options.AgentHost = "localhost"; // Altere para o host do Jaeger, se necessário
+            options.AgentPort = 6831;        // Porta padrão do Jaeger
+        });
+}); ;
 // Configure OpenTelemetry and Jaeger
 //builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
 //{

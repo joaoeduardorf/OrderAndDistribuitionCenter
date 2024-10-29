@@ -27,4 +27,10 @@
     <ProjectReference Include="..\OrderSolution.Domain\OrderSolution.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -4,18 +4,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 8082
+EXPOSE 8083
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["DistribuitionCenter.API/DistribuitionCenter.API.csproj", "DistribuitionCenter.API/"]
+COPY ["DistribuitionCenter.API.csproj", "DistribuitionCenter.API/"]
 RUN dotnet restore "./DistribuitionCenter.API/DistribuitionCenter.API.csproj"
-COPY . .
 WORKDIR "/src/DistribuitionCenter.API"
+COPY . .
 RUN dotnet build "./DistribuitionCenter.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

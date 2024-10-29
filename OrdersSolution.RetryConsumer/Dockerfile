@@ -10,10 +10,11 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OrdersSolution.RetryConsumer/OrdersSolution.RetryConsumer.csproj", "OrdersSolution.RetryConsumer/"]
+COPY ["OrdersSolution.RetryConsumer.csproj", "OrdersSolution.RetryConsumer/"]
 RUN dotnet restore "./OrdersSolution.RetryConsumer/OrdersSolution.RetryConsumer.csproj"
-COPY . .
 WORKDIR "/src/OrdersSolution.RetryConsumer"
+COPY . .
+
 RUN dotnet build "./OrdersSolution.RetryConsumer.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScrpitsDB", "ScrpitsDB", "{
 		CreateDbAndTables.sql = CreateDbAndTables.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSolution.Tests", "OrderSolution.Tests\OrderSolution.Tests.csproj", "{9C1C0668-A601-4BB3-A580-E714BA1911ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{14D76920-0BFD-439B-B949-0A560D7D555F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14D76920-0BFD-439B-B949-0A560D7D555F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14D76920-0BFD-439B-B949-0A560D7D555F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C1C0668-A601-4BB3-A580-E714BA1911ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C1C0668-A601-4BB3-A580-E714BA1911ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C1C0668-A601-4BB3-A580-E714BA1911ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C1C0668-A601-4BB3-A580-E714BA1911ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{D695A2B4-FCF8-4182-87E9-EFA107591DAF} = {A617554B-D5A5-43D8-BB13-AB286148CD77}
 		{1220C6A3-FE14-4265-8697-D986D5FE1E26} = {A617554B-D5A5-43D8-BB13-AB286148CD77}
 		{14D76920-0BFD-439B-B949-0A560D7D555F} = {A617554B-D5A5-43D8-BB13-AB286148CD77}
+		{9C1C0668-A601-4BB3-A580-E714BA1911ED} = {A617554B-D5A5-43D8-BB13-AB286148CD77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90D2153E-7D96-4682-AC61-EDC7FA2F5198}

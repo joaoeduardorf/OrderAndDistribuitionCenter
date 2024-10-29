@@ -1,11 +1,19 @@
 using DistribuitionCenter.API.Middlewares;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenTelemetry().
-    WithTracing(tracerProviderBuilder =>
+builder.Services.AddOpenTelemetry()
+    .WithMetrics( metrics => {
+        metrics.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("DistribuitionCenter.API"))
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            ;
+    })
+    .WithTracing(tracerProviderBuilder =>
     {
         tracerProviderBuilder
             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("DistribuitionCenter.API"))
@@ -16,7 +24,7 @@ builder.Services.AddOpenTelemetry().
                 options.AgentHost = "localhost"; // Altere para o host do Jaeger, se necessário
                 options.AgentPort = 6831;        // Porta padrão do Jaeger
             });
-    }); ;
+    });
 
 // Add services to the container.
 

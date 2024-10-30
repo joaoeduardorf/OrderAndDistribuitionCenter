@@ -21,7 +21,7 @@ builder.Services.AddOpenTelemetry()
             .AddHttpClientInstrumentation()
             .AddJaegerExporter(options =>
             {
-                options.AgentHost = "localhost"; // Altere para o host do Jaeger, se necessário
+                options.AgentHost = "jaeger"; // Altere para o host do Jaeger, se necessário
                 options.AgentPort = 6831;        // Porta padrão do Jaeger
             });
     });
@@ -38,11 +38,11 @@ var app = builder.Build();
 app.UseMiddleware<CorrelationIdMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

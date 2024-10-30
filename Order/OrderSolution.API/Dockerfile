@@ -4,27 +4,27 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8082
-EXPOSE 8083
+EXPOSE 80
+EXPOSE 443
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["DistribuitionCenter.API.csproj", "DistribuitionCenter.API/"]
-RUN dotnet restore "./DistribuitionCenter.API/DistribuitionCenter.API.csproj"
-WORKDIR "/src/DistribuitionCenter.API"
+COPY ["OrderSolution.API.csproj", "OrderSolution.API/"]
+RUN dotnet restore "./OrderSolution.API/OrderSolution.API.csproj"
+WORKDIR "/src/OrderSolution.API"
 COPY . .
-RUN dotnet build "./DistribuitionCenter.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./OrderSolution.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./DistribuitionCenter.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./OrderSolution.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DistribuitionCenter.API.dll"]
+ENTRYPOINT ["dotnet", "OrderSolution.API.dll"]

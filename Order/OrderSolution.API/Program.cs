@@ -33,8 +33,8 @@ builder.Services.AddOpenTelemetry().
         .AddHttpClientInstrumentation()
         .AddJaegerExporter(options =>
         {
-            options.AgentHost = "localhost"; // Altere para o host do Jaeger, se necessário
-            options.AgentPort = 6831;        // Porta padrão do Jaeger
+            options.AgentHost = builder.Configuration["jaeger:AgentHost"]; // Altere para o host do Jaeger, se necessário
+            options.AgentPort = builder.Configuration.GetValue<int>("jaeger:AgentPort");        // Porta padrão do Jaeger
         });
 }); ;
 // Configure OpenTelemetry and Jaeger
@@ -64,14 +64,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IKafkaProducerService, KafkaProducerService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>(); // Novo repositório de OrderItem
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IDistributionCenterAPI, DistributionCenterAPI>();
 builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
 builder.Services.AddSingleton<DomainNotificationHandler>();
 
+
+
 builder.Services.AddHttpClient<IDistributionCenterAPI, DistributionCenterAPI>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7078");
+    client.BaseAddress = new Uri($"{builder.Configuration["distribuitioncenterapi:Host"]}:{builder.Configuration["distribuitioncenterapi:Port"]}");
 })
 .AddPolicyHandler(GetRetryPolicy())          // Retry policy
 .AddPolicyHandler(GetTimeoutPolicy())         // Timeout policy
@@ -89,11 +91,11 @@ app.Use(async (context, next) =>
 });
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

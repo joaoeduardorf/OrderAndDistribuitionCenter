@@ -40,14 +40,14 @@ namespace OrdersSolution.RetryConsumer
 
             var consumerConfig = new ConsumerConfig
             {
-                BootstrapServers = "localhost:29092",//_configuration["Kafka:BootstrapServers"],
+                BootstrapServers = "kafka:9092",//_configuration["Kafka:BootstrapServers"],
                 GroupId = "order-retry-consumer-group-1",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 
             var config = new ProducerConfig
             {
-                BootstrapServers = "localhost:29092"
+                BootstrapServers = "kafka:9092"
             };
 
             _producer = new ProducerBuilder<string, string>(config).Build();

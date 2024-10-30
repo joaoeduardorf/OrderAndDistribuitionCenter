@@ -14,7 +14,7 @@ builder.Services.AddDbContext<OrderContext>(options =>
 
 builder.Services.AddHttpClient<IDistributionCenterAPI, DistributionCenterAPI>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7078");
+    client.BaseAddress = new Uri("http://localhost:5000");
 });
 
 // Registra os repositórios necessários para o reprocessamento

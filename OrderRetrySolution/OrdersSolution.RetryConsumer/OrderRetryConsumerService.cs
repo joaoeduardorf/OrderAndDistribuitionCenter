@@ -26,13 +26,13 @@ namespace OrdersSolution.RetryConsumer
 
         public OrderRetryConsumerService(
             IDistributionCenterAPI dcApi,
-            //IOrderRepository orderRepository,
+            IOrderRepository orderRepository,
             IConfiguration configuration,
             ILogger<OrderRetryConsumerService> logger,
             IServiceScopeFactory scopeFactory)
         {
             _dcApi = dcApi;
-            //_orderRepository = orderRepository;
+            _orderRepository = orderRepository;
             
             _configuration = configuration;
             _logger = logger;
@@ -41,7 +41,7 @@ namespace OrdersSolution.RetryConsumer
             var consumerConfig = new ConsumerConfig
             {
                 BootstrapServers = "kafka:9092",//_configuration["Kafka:BootstrapServers"],
-                GroupId = "order-retry-consumer-group-1",
+                GroupId = "order-retry-consumer-group-3",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 

@@ -1,18 +1,23 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   distribuitioncenterapi:
     container_name: distribuitioncenterapi
+    hostname: distribuitioncenterapi
     build:
       context: ./DistribuitionCenterSolution/DistribuitionCenter.API
       dockerfile: /Dockerfile
+    networks:
+      - default
+        #aliases:
+          #- distribuitioncenterapi
     ports:
-      - "5000:8080"
+      - "5000:5000"
       # - "5001:5001"  
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       # - ASPNETCORE_URLS=http://+:5000;https://+:5001
-      # - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_URLS=http://+:5000
       - Jaeger__AgentHost=jaeger
       - Jaeger__AgentPort=6831
     depends_on:
@@ -20,19 +25,23 @@ services:
 
   orderapi:
     container_name: orderapi
+    hostname: orderapi
     build:
       context: ./Order
       dockerfile: /Dockerfile
+    networks:
+      - default
     ports:
-      - "5002:8080"
+      - "5002:5000"
       # - "5003:5003"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       # - ASPNETCORE_URLS=http://+:5002;https://+:5003
-      # - ASPNETCORE_URLS=http://+:5002
+      - ASPNETCORE_URLS=http://+:5000
       - ConnectionStrings__PostgresConnection=Host=postgres;Database=OrderDB;Username=root;Password=password
       - Kafka__BootstrapServers=kafka:9092
-      - distribuitioncenterapi_Host=http://localhost:5000
+      - distribuitioncenterapi__Host=http://distribuitioncenterapi
+      - distribuitioncenterapi__Port:5000
       #- kafka__Topic=order-retry-topic
       - Jaeger__AgentHost=jaeger
       - Jaeger__AgentPort=6831
@@ -46,6 +55,8 @@ services:
     build:
       context: ./OrderRetrySolution
       dockerfile: /Dockerfile
+    networks:
+      - default
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__PostgresConnection=Host=postgres;Database=OrderDB;Username=root;Password=password
@@ -65,6 +76,8 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     ports:
       - "2182:2181" # Porta alternativa para Zookeeper
+    networks:
+      - default
 
   kafka:
     image: bitnami/kafka:latest
@@ -84,6 +97,8 @@ services:
     ports:
       - "29092:29092" # Porta alternativa para Kafka
       - "9092:9092"   # Porta interna (usada por outros contêineres)
+    networks:
+      - default
 
   postgres:
     image: postgres:latest
@@ -94,6 +109,8 @@ services:
       POSTGRES_DB: OrderDB
     ports:
       - "5432:5432" # Porta alternativa para PostgreSQL
+    networks:
+      - default
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -103,6 +120,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80" # Porta alternativa para PgAdmin4
+    networks:
+      - default
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -117,6 +136,8 @@ services:
       - "14268:14268"     # Porta HTTP do coletor
       - "14269:14269"     # Porta para o health check
       - "9411:9411"       # Porta Zipkin para compatibilidade
+    networks:
+      - default
 
 networks:
   default:

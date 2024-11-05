@@ -79,6 +79,8 @@ builder.Services.AddHttpClient<IDistributionCenterAPI, DistributionCenterAPI>(cl
 .AddPolicyHandler(GetTimeoutPolicy())         // Timeout policy
 .AddPolicyHandler(GetCircuitBreakerPolicy()); // Circuit breaker policy
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Middleware for Correlation ID
@@ -98,6 +100,8 @@ app.Use(async (context, next) =>
 //}
 
 app.UseHttpsRedirection();
+
+app.MapHealthChecks("/health");
 
 app.UseAuthorization();
 
